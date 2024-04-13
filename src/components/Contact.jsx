@@ -1,32 +1,28 @@
+import css from "./Contact.module.css";
+import { FaPhone } from "react-icons/fa6";
+import { RiContactsFill } from "react-icons/ri";
 
-export default function Contact ({
-    contact:{
-        id,
-        name,
-        number
-    }
-}) {
-return (
+export default function Contact({ data: { id, name, number }, onDelete }) {
+  return (
     <div className={css.container}>
-       <p className={css.name}>{name}</p>
-       <p className={css.phone}>{number}</p>
-       <button className={css.btn} onClick={() => onDelete(id)}>
+        <div>
+        <div className="set">
+      <p className={css.input}> 
+      <RiContactsFill className={css.icon} />
+         {name}
+      </p>
+      </div>
+      <div className="set">
+      <p className={css.input}> 
+      <FaPhone className={css.icon} />
+         {number}
+      </p>
+      </div>
+      </div>
+      <button className={css.btn} onClick={() => onDelete(id)}>
         Delete
-   </button>
+      </button>
     </div>
-)
+  );
 }
 
-
-
-
-
-
-
-
-[
-    {id: 'id-1', name: 'Rosie Simpson', number: '459-12-56'},
-    {id: 'id-2', name: 'Hermione Kline', number: '443-89-12'},
-    {id: 'id-3', name: 'Eden Clements', number: '645-17-79'},
-    {id: 'id-4', name: 'Annie Copeland', number: '227-91-26'},
-  ]

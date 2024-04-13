@@ -1,10 +1,15 @@
+import css from './App.module.css';
+import ContactList from './components/ContactList';
+import SearchBox from './components/SearchBox';
+import { useState, useEffect } from 'react';
+import ContactForm from './components/ContactForm';
+import { PiBookOpenTextLight } from "react-icons/pi";
 
-import './App.css'
 
 export default function App() {
   const [contacts, setContacts] = useState(() => {
     const savedContacts = JSON.parse(window.localStorage.getItem("saved-contacts"));
-    if (savedContacts !== null && savedContacts !== undefined && savedContacts.length !== undefined) {
+    if (savedContacts?.length) {
       return savedContacts;
     } else {
       return [
@@ -15,39 +20,35 @@ export default function App() {
       ];
     }
   });
-
-  const [contactName, setContactName] = useState("");
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
-    window.localStorage.setItem("contactName", JSON.stringify(contactName));
-  });
+    window.localStorage.setItem("saved-contacts", JSON.stringify(contacts));
+  }, [contacts]);
 
-  const filterContacts = contacts.filter((contact) =>
+
+    const filterContacts = contacts.filter((contact) =>
     contact.name.toLowerCase().includes(search.toLowerCase())
   );
 
-  function searchContact(contacts, contactName) {
-    return contacts.filter((contact) => contact.name.toLowerCase().includes(contactName));
-  }
-
-  function addContact(contact) {
-    setContacts((prev) => [...prev, contact]);
-  }
-
-  function deleteContact(id) {
-    setContacts(contacts.filter((prev) => prev.id !== id));
-  }
-
+    const addContact = (newContact) => {
+    setContacts((prevContacts) => {
+      return [...prevContacts, newContact];
+    });
+    };
+    
+     const deleteContact = (contactId) => {
+    setContacts((prevContacts) => {
+      return prevContacts.filter((contact) => contact.id !== contactId);
+    });
+    };
+    
   return (
-    <div>
-      <h1>Phonebook</h1>
-      <ContactForm addContact={addContact} />
-      <SearchBox contactName={contactName} setContactName={setContactName} />
-      {contacts.length > 0 ? (
-        <ContactList contacts={filterContacts} deleteContact={deleteContact} />
-      ) : (
-        <p className="text">Sorry, not found any contacts!</p>
-      )}
+    <div className={css.box}>
+      <h1 className={css.title}><PiBookOpenTextLight className={css.icon}/>Phonebook</h1>
+      <ContactForm onAdd={addContact}/>
+      <SearchBox value={search} onFilter={setSearch}/>
+      <ContactList contacts={filterContacts} onDelete={deleteContact}/>
     </div>
   );
 }

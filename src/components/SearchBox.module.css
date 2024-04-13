@@ -1,0 +1,18 @@
+.box{
+    margin-left: 15px;
+}
+.text{
+    font-size:large;
+    text-align: center;
+    color: blanchedalmond;
+    margin-top: 15px;
+}
+.input {
+    color: black;
+    font-size: medium;
+    font-weight: bold;
+    background-color: blanchedalmond;
+    height: 30px;
+    border: 1px solid chocolate;
+    border-radius: 20px;
+}
